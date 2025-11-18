@@ -42,9 +42,9 @@ APP_VERSION :=	1.0.3
 
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	source
+SOURCES		:=	source lib/libultrahand/common lib/libultrahand/libultra/source
 DATA		:=	data
-INCLUDES	:=	include lib/libtesla/include ../lib/libfancontrol/include
+INCLUDES	:=	include lib/libultrahand/common lib/libultrahand/libultra/include lib/libultrahand/libtesla/include ../lib/libfancontrol/include
 
 NO_ICON		:=  1
 
@@ -53,12 +53,12 @@ NO_ICON		:=  1
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 
-CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
+CFLAGS	:=	-g -Wall -O2 -ffunction-sections -fdata-sections -flto -fuse-linker-plugin \
 			$(ARCH) $(DEFINES)
 
 CFLAGS	+=	$(INCLUDE) -D__SWITCH__
 
-CXXFLAGS	:= $(CFLAGS) -fno-exceptions -std=c++20
+CXXFLAGS	:= $(CFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -std=c++20
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
